@@ -27,20 +27,48 @@ s consits of lower-case and/or upper-case English letters only.
 
 Solution using Python:
 
-        def longestPalindrome(self, s: str) -> int:
-            result, flag = 0, 0
-            l=list(dict.fromkeys(s))        #creating a list of all letters in s without duplication
-            for i in range(len(l)):
-                count=s.count(l[i])         #getting the count of each letter from list (l) in the input string (s)
-                if count%2==0:
-                    result+=count           #if it is even, add count to the result 
-                else:
-                    flag=1                  #if any odd count shows up, keep a check
-                    result+=count-1         #if count is odd, add count-1 to the result (c)
-            if flag:
-                result+=1                   #result needs to be incremented by 1, since one remaining character can be used in the center
-                
-            return result
+        def longestPalSubstr(string): 
+    maxLength = 1
+  
+    start = 0
+    length = len(string) 
+  
+    low = 0
+    high = 0
+  
+    # One by one consider every character as center point of  
+    # even and length palindromes 
+    for i in xrange(1, length): 
+        # Find the longest even length palindrome with center 
+    # points as i-1 and i. 
+        low = i - 1
+        high = i 
+        while low >= 0 and high < length and string[low] == string[high]: 
+            if high - low + 1 > maxLength: 
+                start = low 
+                maxLength = high - low + 1
+            low -= 1
+            high += 1
+  
+        # Find the longest odd length palindrome with center  
+        # point as i 
+        low = i - 1
+        high = i + 1
+        while low >= 0 and high < length and string[low] == string[high]: 
+            if high - low + 1 > maxLength: 
+                start = low 
+                maxLength = high - low + 1
+            low -= 1
+            high += 1
+  
+    print "Longest palindrome substring is:", 
+    print string[start:start + maxLength] 
+  
+    return maxLength 
+  
+# Driver program to test above functions 
+string = "malayalam"
+print "Length is: " + str(longestPalSubstr(string)) 
 
 
 Explanation of code:
